@@ -1,4 +1,15 @@
-import { Controller } from '@nestjs/common';
+import { Get, Post, Put, Delete } from '@nestjs/common';
 
 @Controller('admin')
-export class AdminController {}
+export class AdminController {
+
+  @Get()
+  Something(): string {
+    return 'Something';
+  }
+
+  @Post()
+  Anything(): string {
+    return 'Anything';
+  }
+}
