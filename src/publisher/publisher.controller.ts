@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 
 let games = [];
-const gamesAvailable = [];
 class GameUploadDto {
   id: number;
   name: string;
@@ -35,6 +34,12 @@ export class PublisherController {
   trackingOrder() {
     console.log('track');
     return `Order tracking`;
+  }
+
+  @Get('/available')
+  checkingAvailable() {
+    console.log(`available`);
+    return `Available`;
   }
 
   @Get(':id')
