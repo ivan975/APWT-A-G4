@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 
 const games = [];
-
 class GameUploadDto {
   id: number;
   name: string;
