@@ -25,15 +25,26 @@ export class PublisherController {
     return `game uploaded successfully`;
   }
 
-  @Get()
+  @Get('/viewAll')
   getGames() {
     return games;
+  }
+
+  @Get('/visible')
+  isVisible() {
+    return `Visible`;
   }
 
   @Get('/track')
   trackingOrder() {
     console.log('track');
     return `Order tracking`;
+  }
+
+  @Get('/view')
+  viewingOrder() {
+    console.log('viewing');
+    return `Order Viewing`;
   }
 
   @Get('/available')
@@ -63,5 +74,6 @@ export class PublisherController {
   @Delete(':id')
   deleteGames(@Param('id') id: number) {
     games = games.filter((games) => +games.id !== +id);
+    return games;
   }
 }
