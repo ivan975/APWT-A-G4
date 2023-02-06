@@ -1,6 +1,15 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 
-const games = [];
+let games = [];
+const gamesAvailable = [];
 class GameUploadDto {
   id: number;
   name: string;
@@ -20,5 +29,34 @@ export class PublisherController {
   @Get()
   getGames() {
     return games;
+  }
+
+  @Get('/track')
+  trackingOrder() {
+    console.log('track');
+    return `Order tracking`;
+  }
+
+  @Get(':id')
+  getGamesById(@Param('id') id: number) {
+    console.log(`id`);
+    return games.find((games) => +games.id === +id);
+  }
+
+  @Put(':id')
+  updateGamesInfo(
+    @Param('id') id: number,
+    @Body() updateGamesDTO: GameUploadDto,
+  ) {
+    const game = games.findIndex((games) => +games.id === +id);
+    if (!game) {
+      return;
+    }
+    games[game] = updateGamesDTO;
+  }
+
+  @Delete(':id')
+  deleteGames(@Param('id') id: number) {
+    games = games.filter((games) => +games.id !== +id);
   }
 }
