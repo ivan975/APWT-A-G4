@@ -11,7 +11,7 @@ export class PublisherService {
   }
 
   getGameById(id: number): Games {
-    const found = this.games.find((game) => game.id === +id);
+    const found = this.games.find((game) => +game.id === +id);
 
     if (!found) {
       throw new NotFoundException(`Game with ID:${id} not found`);
@@ -35,6 +35,7 @@ export class PublisherService {
   }
   deleteGames(id: number) {
     const found = this.getGameById(id);
-    this.games = this.games.filter((game) => game.id !== found.id);
+    this.games = this.games.filter((game) => +game.id !== +found.id);
+    return `Games with id no: ${found.id} deleted successfully`;
   }
 }

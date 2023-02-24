@@ -45,6 +45,6 @@ export class PublisherController {
   // }
   @Delete('/:id')
   deleteGames(@Param('id') id: number) {
-    this.gamesService.deleteGames(id);
+    return this.gamesService.deleteGames(id);
   }
 }
