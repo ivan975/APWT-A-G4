@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
   UsePipes,
   ValidationPipe,
@@ -25,39 +27,10 @@ export class PublisherController {
     return this.gamesService.createTask(addGamesDto);
   }
 
-  // @Get('/viewAll')
-  // getGames() {
-  //   return games;
-  // }
-
-  // @Get('/visible')
-  // isVisible() {
-  //   return `Visible`;
-  // }
-
-  // @Get('/track')
-  // trackingOrder() {
-  //   console.log('track');
-  //   return `Order tracking`;
-  // }
-
-  // @Get('/view')
-  // viewingOrder() {
-  //   console.log('viewing');
-  //   return `Order Viewing`;
-  // }
-
-  // @Get('/available')
-  // checkingAvailable() {
-  //   console.log(`available`);
-  //   return `Available`;
-  // }
-
-  // @Get(':id')
-  // getGamesById(@Param('id') id: number) {
-  //   console.log(`id`);
-  //   return games.find((games) => +games.id === +id);
-  // }
+  @Get('/:id')
+  getTaskById(@Param('id') id: number) {
+    return this.gamesService.getGameById(id);
+  }
 
   // @Put(':id')
   // updateGamesInfo(
@@ -70,10 +43,8 @@ export class PublisherController {
   //   }
   //   games[game] = updateGamesDTO;
   // }
-
-  // @Delete(':id')
-  // deleteGames(@Param('id') id: number) {
-  //   games = games.filter((games) => +games.id !== +id);
-  //   return games;
-  // }
+  @Delete('/:id')
+  deleteTasks(@Param('id') id: number) {
+    this.gamesService.deleteTask(id);
+  }
 }
