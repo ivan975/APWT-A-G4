@@ -17,18 +17,18 @@ export class PublisherController {
   constructor(private gamesService: PublisherService) {}
 
   @Get()
-  getAllTasks() {
+  getAllGames() {
     return this.gamesService.getAllGames();
   }
 
   @Post()
   @UsePipes(ValidationPipe)
-  createTask(@Body() addGamesDto: AddGamesDto): Games {
-    return this.gamesService.createTask(addGamesDto);
+  createGames(@Body() addGamesDto: AddGamesDto): Games {
+    return this.gamesService.createGames(addGamesDto);
   }
 
   @Get('/:id')
-  getTaskById(@Param('id') id: number) {
+  getGameById(@Param('id') id: number): Games {
     return this.gamesService.getGameById(id);
   }
 
@@ -44,7 +44,7 @@ export class PublisherController {
   //   games[game] = updateGamesDTO;
   // }
   @Delete('/:id')
-  deleteTasks(@Param('id') id: number) {
-    this.gamesService.deleteTask(id);
+  deleteGames(@Param('id') id: number) {
+    this.gamesService.deleteGames(id);
   }
 }

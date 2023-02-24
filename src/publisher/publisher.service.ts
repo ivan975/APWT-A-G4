@@ -9,8 +9,9 @@ export class PublisherService {
   getAllGames(): Games[] {
     return this.games;
   }
+
   getGameById(id: number): Games {
-    const found = this.games.find((game) => game.id === id);
+    const found = this.games.find((game) => game.id === +id);
 
     if (!found) {
       throw new NotFoundException(`Game with ID:${id} not found`);
@@ -18,7 +19,7 @@ export class PublisherService {
     return found;
   }
 
-  createTask(createTaskDto: AddGamesDto): Games {
+  createGames(createTaskDto: AddGamesDto): Games {
     const { id, title, yearOfRelease, price } = createTaskDto;
 
     const game: Games = {
@@ -32,7 +33,7 @@ export class PublisherService {
     this.games.push(game);
     return game;
   }
-  deleteTask(id: number) {
+  deleteGames(id: number) {
     const found = this.getGameById(id);
     this.games = this.games.filter((game) => game.id !== found.id);
   }
