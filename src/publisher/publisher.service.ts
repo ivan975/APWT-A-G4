@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AddGamesDto } from './dto/add-games.dto';
-import { Games, GamesStatus } from './model/games.model';
+import { Games, GamesInfo } from './model/games.model';
 
 @Injectable()
 export class PublisherService {
@@ -27,12 +27,18 @@ export class PublisherService {
       title,
       yearOfRelease,
       price,
-      status: GamesStatus.OPEN,
+      info: GamesInfo.AVAILABLE,
     };
 
     this.games.push(game);
     return game;
   }
+  updateGames(id: number, info: GamesInfo): Games {
+    const games = this.getGameById(id);
+    games.info = info;
+    return games;
+  }
+
   deleteGames(id: number) {
     const found = this.getGameById(id);
     this.games = this.games.filter((game) => +game.id !== +found.id);

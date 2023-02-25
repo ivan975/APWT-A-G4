@@ -3,11 +3,10 @@ export interface Games {
   title: string;
   yearOfRelease: string;
   price: number;
-  status: GamesStatus;
+  info: GamesInfo;
 }
 
-export enum GamesStatus {
-  OPEN = 'OPEN',
-  IN_PROGRESS = 'IN_PROGRESS',
-  DONE = 'DONE',
+export enum GamesInfo {
+  AVAILABLE = 'AVAILABLE',
+  NOT_AVAILABLE = 'NOT_AVAILABLE',
 }

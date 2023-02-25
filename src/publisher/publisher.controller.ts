@@ -4,12 +4,14 @@ import {
   Delete,
   Get,
   Param,
+  ParseEnumPipe,
   Post,
+  Put,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { AddGamesDto } from './dto/add-games.dto';
-import { Games } from './model/games.model';
+import { Games, GamesInfo } from './model/games.model';
 import { PublisherService } from './publisher.service';
 
 @Controller('/publisher')
@@ -32,17 +34,14 @@ export class PublisherController {
     return this.gamesService.getGameById(id);
   }
 
-  // @Put(':id')
-  // updateGamesInfo(
-  //   @Param('id') id: number,
-  //   @Body() updateGamesDTO: GameUploadDto,
-  // ) {
-  //   const game = games.findIndex((games) => +games.id === +id);
-  //   if (!game) {
-  //     return;
-  //   }
-  //   games[game] = updateGamesDTO;
-  // }
+  @Put('/info/:id')
+  updateTask(
+    @Param('id') id: number,
+    @Body('info', new ParseEnumPipe(GamesInfo)) info: GamesInfo,
+  ) {
+    return this.gamesService.updateGames(id, info);
+  }
+
   @Delete('/:id')
   deleteGames(@Param('id') id: number) {
     return this.gamesService.deleteGames(id);
