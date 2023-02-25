@@ -33,7 +33,7 @@ export class PublisherService {
     this.games.push(game);
     return game;
   }
-  updateGames(id: number, info: GamesInfo): Games {
+  updateGamesStatus(id: number, info: GamesInfo): Games {
     const games = this.getGameById(id);
     games.info = info;
     return games;

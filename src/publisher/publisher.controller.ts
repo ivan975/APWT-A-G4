@@ -39,7 +39,7 @@ export class PublisherController {
     @Param('id') id: number,
     @Body('info', new ParseEnumPipe(GamesInfo)) info: GamesInfo,
   ) {
-    return this.gamesService.updateGames(id, info);
+    return this.gamesService.updateGamesStatus(id, info);
   }
 
   @Delete('/:id')
