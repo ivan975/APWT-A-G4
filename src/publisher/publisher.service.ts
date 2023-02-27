@@ -1,47 +1,56 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { AddGamesDto } from './dto/add-games.dto';
-import { Games, GamesInfo } from './model/games.model';
+import { Game } from './game.entity';
 
 @Injectable()
 export class PublisherService {
-  private games: Games[] = [];
+  constructor(
+    @InjectRepository(Game)
+    private gameRepo: Repository<Game>,
+  ) {}
 
-  getAllGames(): Games[] {
-    return this.games;
+  async getAllGames(): Promise<any> {
+    const found = await this.gameRepo.find();
+    if (!found) {
+      throw new NotFoundException(`Game not found`);
+    }
+    return found;
   }
 
-  getGameById(id: number): Games {
-    const found = this.games.find((game) => +game.id === +id);
-
+  async getGameById(id): Promise<any> {
+    const found = await this.gameRepo.findOneBy({ id });
     if (!found) {
       throw new NotFoundException(`Game with ID:${id} not found`);
     }
     return found;
   }
 
-  createGames(createTaskDto: AddGamesDto): Games {
-    const { id, title, yearOfRelease, price } = createTaskDto;
+  createGames(createGamesDto: AddGamesDto) {
+    const games = new Game();
+    games.title = createGamesDto.title;
+    games.yearOfRelease = createGamesDto.yearOfRelease;
+    games.price = createGamesDto.price;
 
-    const game: Games = {
-      id,
-      title,
-      yearOfRelease,
-      price,
-      info: GamesInfo.AVAILABLE,
-    };
-
-    this.games.push(game);
-    return game;
-  }
-  updateGamesStatus(id: number, info: GamesInfo): Games {
-    const games = this.getGameById(id);
-    games.info = info;
-    return games;
+    return this.gameRepo.save(games);
   }
 
-  deleteGames(id: number) {
-    const found = this.getGameById(id);
-    this.games = this.games.filter((game) => +game.id !== +found.id);
-    return `Games with id no: ${found.id} deleted successfully`;
+  // updateGamesStatus(id: number, info: GamesInfo): Games {
+  //   const games = this.getGameById(id);
+  //   games.info = info;
+  //   return games;
+  // }
+
+  async updateGamesById(addGamesDto, id) {
+    return await this.gameRepo.update(id, addGamesDto);
+  }
+
+  async deleteGames(id: number): Promise<void> {
+    const result = await this.gameRepo.delete(id);
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`Task with id ${id} does not exist`);
+    }
   }
 }

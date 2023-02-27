@@ -1,5 +1,4 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { GamesInfo } from './model/games.model';
 
 @Entity()
 export class Game extends BaseEntity {
@@ -13,8 +12,5 @@ export class Game extends BaseEntity {
   yearOfRelease: string;
 
   @Column()
-  price: string;
-
-  @Column()
-  info: GamesInfo;
+  price: number;
 }
