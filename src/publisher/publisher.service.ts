@@ -9,7 +9,7 @@ export class PublisherService {
   constructor(
     @InjectRepository(Game)
     private gameRepo: Repository<Game>,
-  ) {}
+  ) { }
 
   async getAllGames(): Promise<any> {
     const found = await this.gameRepo.find();
@@ -35,12 +35,6 @@ export class PublisherService {
 
     return this.gameRepo.save(games);
   }
-
-  // updateGamesStatus(id: number, info: GamesInfo): Games {
-  //   const games = this.getGameById(id);
-  //   games.info = info;
-  //   return games;
-  // }
 
   async updateGamesById(addGamesDto, id) {
     return await this.gameRepo.update(id, addGamesDto);
