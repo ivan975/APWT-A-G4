@@ -1,6 +1,7 @@
-import { BaseEntity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { GamesInfo } from './model/games.model';
 
+@Entity()
 export class Game extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
