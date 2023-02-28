@@ -33,13 +33,6 @@ export class PublisherController {
     return this.gamesService.getGameById(id);
   }
 
-  // @Put('/info/:id')
-  // updateTask(
-  //   @Param('id') id: number,
-  //   @Body('info', new ParseEnumPipe(GamesInfo)) info: GamesInfo,
-  // ) {
-  //   return this.gamesService.updateGamesStatus(id, info);
-  // }
 
   @Put('updateGamesById/:id')
   @UsePipes(new ValidationPipe())
