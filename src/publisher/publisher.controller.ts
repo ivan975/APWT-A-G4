@@ -33,7 +33,6 @@ export class PublisherController {
     return this.gamesService.getGameById(id);
   }
 
-
   @Put('updateGamesById/:id')
   @UsePipes(new ValidationPipe())
   updateGamesById(

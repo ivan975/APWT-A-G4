@@ -9,7 +9,7 @@ export class PublisherService {
   constructor(
     @InjectRepository(Game)
     private gameRepo: Repository<Game>,
-  ) { }
+  ) {}
 
   async getAllGames(): Promise<any> {
     const found = await this.gameRepo.find();
