@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post, Session } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Session,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthCredentialsDto } from './auth-credentiasl.dto';
 import { AuthService } from './auth.service';
 
@@ -19,6 +26,14 @@ export class AuthController {
       return { message: 'success' };
     } else {
       return { message: 'Invalid credentials' };
+    }
+  }
+  @Get('/signOut')
+  signOut(@Session() session) {
+    if (session.destroy()) {
+      return { message: 'Logged Out Successfully' };
+    } else {
+      throw new UnauthorizedException('Error 404!!!');
     }
   }
 }
