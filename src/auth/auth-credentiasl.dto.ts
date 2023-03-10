@@ -13,4 +13,5 @@ export class AuthCredentialsDto {
     message: 'Use Character, uppercase letters and lowercase letters',
   })
   password: string;
+  filename: string;
 }

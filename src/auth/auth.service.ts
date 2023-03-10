@@ -17,49 +17,31 @@ export class AuthService {
     private userRepo: Repository<User>,
   ) {}
 
-  async validateUserPassword(authCredentialsDto: AuthCredentialsDto) {
-    const { username, password } = authCredentialsDto;
+  // async validateUserPassword(authCredentialsDto: AuthCredentialsDto) {
+  //   const { username, password } = authCredentialsDto;
 
-    // const user = await this.userRepo.findOneBy({ username: username });
-    const user = await this.userRepo.findOneBy({ username: username });
+  //   // const user = await this.userRepo.findOneBy({ username: username });
+  //   const user = await this.userRepo.findOneBy({ username: username });
 
-    if (user && user.validatePassword(password)) {
-      return user.username;
-    }
-  }
-
-  async signIn(authCredentialsDto: AuthCredentialsDto) {
-    const username = await this.validateUserPassword(authCredentialsDto);
-
-    if (!username) {
-      throw new UnauthorizedException('Invalid Credentials');
-    }
-  }
-  async signUp(authCredentialsDto: AuthCredentialsDto) {
-    const { username, password } = authCredentialsDto;
-
-    const user = new User();
-    user.username = username;
-    user.salt = await bcrypt.genSalt();
-    user.password = await this.hashPassword(password, user.salt);
-    try {
-      await user.save();
-    } catch (err) {
-      if (err.code === '23505') {
-        throw new ConflictException('User already exists');
-      } else {
-        throw new InternalServerErrorException();
-      }
-    }
-
-    return await this.userRepo.save(user);
-  }
-  // async signUp(authCredentialsDto: AuthCredentialsDto) {
-  //   const salt = await bcrypt.genSalt();
-  //   const hassedpassed = await bcrypt.hash(authCredentialsDto.password, salt);
-  //   authCredentialsDto.password = hassedpassed;
-  //   return this.userRepo.save(authCredentialsDto);
+  //   if (user && user.validatePassword(password)) {
+  //     return user.username;
+  //   }
   // }
+
+  // async signIn(authCredentialsDto: AuthCredentialsDto) {
+  //   const username = await this.validateUserPassword(authCredentialsDto);
+
+  //   if (!username) {
+  //     throw new UnauthorizedException('Invalid Credentials');
+  //   }
+  // }
+  async signUp(authCredentialsDto: AuthCredentialsDto) {
+    const salt = await bcrypt.genSalt();
+    const hassedpassed = await bcrypt.hash(authCredentialsDto.password, salt);
+    authCredentialsDto.password = hassedpassed;
+    return await this.userRepo.save(authCredentialsDto);
+  }
+
   // async signIn(authCredentialsDto: AuthCredentialsDto) {
   //   const myData = await this.userRepo.findOneBy({
   //     password: authCredentialsDto.password,
