@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
 export class AddGamesDto {
   @IsNotEmpty()
@@ -12,7 +12,4 @@ export class AddGamesDto {
 
   @IsNotEmpty()
   price: number;
-
-  @IsEmail()
-  email: string;
 }

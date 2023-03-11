@@ -13,7 +13,6 @@ import {
 import { AddGamesDto } from './dto/add-games.dto';
 import { Games } from './model/games.model';
 import { PublisherService } from './publisher.service';
-
 @Controller('/publisher')
 export class PublisherController {
   constructor(private gamesService: PublisherService) {}

@@ -1,7 +1,9 @@
+import { Game } from 'src/publisher/game.entity';
 import {
   BaseEntity,
   Column,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
@@ -23,4 +25,7 @@ export class User extends BaseEntity {
 
   @Column()
   email: string;
+
+  @OneToMany(() => Game, (game) => game.game)
+  games: Game[];
 }

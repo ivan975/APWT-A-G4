@@ -1,4 +1,11 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/auth/user.entity';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Game extends BaseEntity {
@@ -13,4 +20,7 @@ export class Game extends BaseEntity {
 
   @Column()
   price: number;
+
+  @ManyToOne(() => User, (user) => user.games)
+  game: User;
 }
