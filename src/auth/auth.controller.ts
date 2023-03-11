@@ -43,16 +43,15 @@ export class AuthController {
     return await this.authService.signUp(authCredentialsDto);
   }
 
-  // @Get('/signIn')
-  // signIn(@Session() session, @Body() authCredentialsDto: AuthCredentialsDto) {
-  //   if (this.authService.signIn(authCredentialsDto)) {
-  //     session.username = authCredentialsDto.username;
-  //     session.password = authCredentialsDto.password;
-  //     return { message: 'success' };
-  //   } else {
-  //     return { message: 'Invalid credentials' };
-  //   }
-  // }
+  @Get('/signIn')
+  signIn(@Session() session, @Body() authCredentialsDto: AuthCredentialsDto) {
+    if (this.authService.signIn(authCredentialsDto)) {
+      session.email = authCredentialsDto.email;
+      return { message: 'success' };
+    } else {
+      return { message: 'Invalid credentials' };
+    }
+  }
   @Get('/signOut')
   signOut(@Session() session) {
     if (session.destroy()) {
@@ -60,5 +59,9 @@ export class AuthController {
     } else {
       throw new UnauthorizedException('Error 404!!!');
     }
+  }
+  @Post('/email')
+  sendEmail(@Body() myData) {
+    return this.authService.sendEmail(myData);
   }
 }

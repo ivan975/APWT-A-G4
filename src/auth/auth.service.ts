@@ -4,32 +4,16 @@ import { Repository } from 'typeorm';
 import { AuthCredentialsDto } from './auth-credentiasl.dto';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private userRepo: Repository<User>,
+    private mailerService: MailerService,
   ) {}
 
-  // async validateUserPassword(authCredentialsDto: AuthCredentialsDto) {
-  //   const { username, password } = authCredentialsDto;
-
-  //   // const user = await this.userRepo.findOneBy({ username: username });
-  //   const user = await this.userRepo.findOneBy({ username: username });
-
-  //   if (user && user.validatePassword(password)) {
-  //     return user.username;
-  //   }
-  // }
-
-  // async signIn(authCredentialsDto: AuthCredentialsDto) {
-  //   const username = await this.validateUserPassword(authCredentialsDto);
-
-  //   if (!username) {
-  //     throw new UnauthorizedException('Invalid Credentials');
-  //   }
-  // }
   async signUp(authCredentialsDto: AuthCredentialsDto) {
     const salt = await bcrypt.genSalt();
     const hassedpassed = await bcrypt.hash(authCredentialsDto.password, salt);
@@ -37,22 +21,27 @@ export class AuthService {
     return await this.userRepo.save(authCredentialsDto);
   }
 
-  // async signIn(authCredentialsDto: AuthCredentialsDto) {
-  //   const myData = await this.userRepo.findOneBy({
-  //     password: authCredentialsDto.password,
-  //   });
-  //   const isMatch = await bcrypt.compare(
-  //     authCredentialsDto.password,
-  //     myData.password,
-  //   );
+  async signIn(authCredentialsDto: AuthCredentialsDto) {
+    const myData = await this.userRepo.findOneBy({
+      email: authCredentialsDto.email,
+    });
 
-  //   if (isMatch) {
-  //     return 1;
-  //   } else {
-  //     return 0;
-  //   }
-  // }
-  private async hashPassword(password: string, salt: string): Promise<string> {
-    return bcrypt.hash(password, salt);
+    const isMatch = await bcrypt.compare(
+      authCredentialsDto.password,
+      myData.password,
+    );
+
+    if (isMatch) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+  async sendEmail(myData) {
+    return await this.mailerService.sendMail({
+      to: 'rakib.ivan100@gmail.com',
+      subject: myData.subject,
+      text: myData.text,
+    });
   }
 }
