@@ -3,12 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AddGamesDto } from './dto/add-games.dto';
 import { Game } from './game.entity';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class PublisherService {
   constructor(
     @InjectRepository(Game)
     private gameRepo: Repository<Game>,
+    private mailerService: MailerService,
   ) {}
 
   async getAllGames(): Promise<any> {
@@ -46,5 +48,12 @@ export class PublisherService {
     if (result.affected === 0) {
       throw new NotFoundException(`Task with id ${id} does not exist`);
     }
+  }
+  async sendEmail(data) {
+    return await this.mailerService.sendMail({
+      to: data.email,
+      subject: data.subject,
+      text: data.text,
+    });
   }
 }
