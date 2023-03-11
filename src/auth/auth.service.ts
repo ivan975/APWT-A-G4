@@ -39,7 +39,7 @@ export class AuthService {
   }
   async sendEmail(myData) {
     return await this.mailerService.sendMail({
-      to: 'rakib.ivan100@gmail.com',
+      to: myData.to,
       subject: myData.subject,
       text: myData.text,
     });
