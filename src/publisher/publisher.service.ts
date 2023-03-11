@@ -21,12 +21,20 @@ export class PublisherService {
     return found;
   }
 
-  async getGameById(id): Promise<any> {
-    const found = await this.gameRepo.findOneBy({ id });
-    if (!found) {
-      throw new NotFoundException(`Game with ID:${id} not found`);
-    }
-    return found;
+  // async getGameById(id): Promise<any> {
+  //   const found = await this.gameRepo.findOneBy({ id });
+  //   if (!found) {
+  //     throw new NotFoundException(`Game with ID:${id} not found`);
+  //   }
+  //   return found;
+  // }
+  getGamesByUserID(id): any {
+    return this.gameRepo.find({
+      where: { id: id },
+      relations: {
+        game: true,
+      },
+    });
   }
 
   createGames(createGamesDto: AddGamesDto) {
@@ -36,6 +44,10 @@ export class PublisherService {
     games.price = createGamesDto.price;
 
     return this.gameRepo.save(games);
+  }
+
+  insertGames(insertGames: AddGamesDto): any {
+    return this.gameRepo.save(insertGames);
   }
 
   async updateGamesById(addGamesDto, id) {

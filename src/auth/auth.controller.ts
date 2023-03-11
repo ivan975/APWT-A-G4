@@ -3,7 +3,9 @@ import {
   Controller,
   FileTypeValidator,
   Get,
+  Param,
   ParseFilePipe,
+  ParseIntPipe,
   Post,
   Session,
   UnauthorizedException,
@@ -63,5 +65,9 @@ export class AuthController {
   @Post('/email')
   sendEmail(@Body() myData) {
     return this.authService.sendEmail(myData);
+  }
+  @Get('/getGameByUserId/:id')
+  getManagerByAdminID(@Param('id', ParseIntPipe) id: number): any {
+    return this.authService.getGamesByUserID(id);
   }
 }

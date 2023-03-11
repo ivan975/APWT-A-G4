@@ -44,4 +44,12 @@ export class AuthService {
       text: myData.text,
     });
   }
+  getGamesByUserID(id): any {
+    return this.userRepo.find({
+      where: { id: id },
+      relations: {
+        games: true,
+      },
+    });
+  }
 }

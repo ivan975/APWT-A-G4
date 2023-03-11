@@ -30,7 +30,7 @@ export class PublisherController {
 
   @Get('/:id')
   getGameById(@Param('id', ParseIntPipe) id: number): Promise<Games> {
-    return this.gamesService.getGameById(id);
+    return this.gamesService.getGamesByUserID(id);
   }
 
   @Put('updateGamesById/:id')
