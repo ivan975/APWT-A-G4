@@ -1,42 +1,50 @@
-import { Injectable } from "@nestjs/common";
-import { EmployeeForm } from "./employee.dto";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Employee } from './employee.model';
+import * as uuid from 'uuid';
+import { createformdto } from './dto/create-employee.dto';
 
 @Injectable()
 export class EmployeeService {
-    getIndex():string {
-        return "Employee Index";
+  private Employee = [];
+
+  getallusers() {
+    return this.Employee;
+  }
+
+  getuserbyID(id: string): Employee {
+    const found = this.Employee.find((Employee) => Employee.id);
+
+    if (!found) {
+      throw new NotFoundException('ID Not Found');
     }
 
-    getUserByID(id):any{
-        return "The id is "+id;
-    }
+    return found;
+  }
 
-    getUserByName(qry):any {
-    
-        return "the id is "+qry.id +" and name is "+qry.name;
-    }
-    
-    insertUser(mydto:EmployeeForm):any {
-        
-        return "Employee Inserted name: " + mydto.name+" and id is " + mydto.id;
-    }
+  createform(createformdto: createformdto): Employee {
+    const { name, email } = createformdto;
 
-    insertEmployee(mydto:EmployeeForm):any{
-        return "Employee name: "+mydto.name+ "and id is: "+mydto.id;
-    }
+    const employee: Employee = {
+      id: uuid,
+      name,
+      email,
+      status,
+    };
 
-        
-    updateEmployee(name,id):any {
-        return "Employee updated name: " +name+" and id is " +id;
-    }
+    this.Employee.push(employee);
+    return employee;
+  }
 
-    updateEmployeebyid(name,id):any {
-        return "Update Employee where id " +id+" and change name to " +name;
-    }
+  deleteuser(id: string): void {
+    const found = this.getuserbyID(id);
+    this.Employee = this.Employee.filter(
+      (Employee) => Employee.id !== found.id,
+    );
+  }
 
-    deleteEmployeebyid(id):any {
-
-        return "Delete id is "+id;
-    }
-
+  updateuserstatus(id: string, status: string): Employee {
+    const employee = this.getuserbyID(id);
+    employee.status = status;
+    return employee;
+  }
 }

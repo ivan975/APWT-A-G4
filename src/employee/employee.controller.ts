@@ -1,52 +1,58 @@
-import { Controller,Body,Delete,Put,Get,Param,ParseIntPipe,Query,Post} from "@nestjs/common";
-import { EmployeeService } from "./employee.service";
-import {EmployeeForm} from "./employee.dto";
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Delete,
+  Put,
+  Param,
+  Patch,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { Query } from '@nestjs/common/decorators';
+//import { UsePipes } from '@nestjs/common/decorators/core/use-pipes.decorator';
+import { createformdto } from './dto/create-employee.dto';
+import { GetEmployeeFilterDto } from './dto/get-employee-filter.dto';
+import { Employee } from './employee.model';
+import { EmployeeService } from './employee.service';
 
-@Controller("Employee")
+@Controller('employee')
+export class EmployeeController {
+  constructor(private EmployeeService: EmployeeService) {}
 
-    export class EmployeeController
-    {
-    constructor( private employeeservice:EmployeeService ){}
-    @Get("/index")
-    getemployee():any{
-        return this.employeeservice.getIndex();
+  @Get()
+  getallusers(
+    @Query(ValidationPipe) filterDto: GetEmployeeFilterDto,
+  ): Employee[] {
+    if (Object.keys(filterDto).length) {
+    } else {
+      return this.EmployeeService.getallusers();
     }
+    return this.EmployeeService.getallusers();
+  }
 
-    @Get("/:id")
-    getUserById(@Param("id,ParsenIntPipe")id:number):any{
-        return this.employeeservice.getUserByID(id);
-    }
+  @Get('/:id')
+  getuserbyID(@Param('id') id: string): Employee {
+    return this.EmployeeService.getuserbyID(id);
+  }
 
-    /*@Get("/finduser")
-    getUserByName(@Query()gru:any):any{
-        return this.employeeservice.getUserByName(qry);
-    }*/
+  @Post()
+  @UsePipes(ValidationPipe)
+  creatfrom(@Body() createformdto: createformdto): Employee {
+    return this.EmployeeService.createform(createformdto);
+  }
 
-    @Post("/insertEmployee")
-    insertEmployee(@Body() mydto:EmployeeForm):any{
-        return this.employeeservice.insertEmployee(mydto);
-    }
+  @Delete('/:id')
+  deleteuser(@Param('id') id: string): void {
+    this.EmployeeService.deleteuser(id);
+  }
 
-    @Put("/updateEmployee/:id")
-    updateEmployee(
-        @Body("name")name:string,
-        @Body("id")id:number
-    ): any{
-        return this.employeeservice.updateEmployee(name, id);
-    }
-
-    @Put("/updateEmployee/:id")
-    updateEmployeeid(
-        @Body("name") name:string,
-        @Param("id,ParseIntPipe") id:number
-    ) : any{
-        return this.employeeservice.updateEmployee(name,id);
-    }
-
-    @Delete("/deleteEmployee/:id")
-    deleteEmployeebyid( 
-     @Param("id", ParseIntPipe) id:number
-      ): any {
-    return this.employeeservice.deleteEmployeebyid(id);
-    }
+  @Patch('/:id/status')
+  updateuserstatus(
+    @Param('id') id: string,
+    @Body('status') status: string,
+  ): Employee {
+    return this.EmployeeService.updateuserstatus(id, status);
+  }
 }
