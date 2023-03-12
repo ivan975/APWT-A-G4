@@ -27,6 +27,15 @@ export class Game extends BaseEntity {
   @Column({ default: true })
   isVisible: boolean;
 
+  // @Column({ unique: true })
+  // code: string;
+
+  // @Column()
+  // discount: number;
+
+  // @Column()
+  // expirationDate: Date;
+
   @ManyToOne(() => User, (user) => user.games)
   game: User;
 }
