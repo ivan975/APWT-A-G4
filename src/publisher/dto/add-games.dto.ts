@@ -12,4 +12,6 @@ export class AddGamesDto {
 
   @IsNotEmpty()
   price: number;
+
+  visible: boolean;
 }

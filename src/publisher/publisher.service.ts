@@ -21,13 +21,13 @@ export class PublisherService {
     return found;
   }
 
-  // async getGameById(id): Promise<any> {
-  //   const found = await this.gameRepo.findOneBy({ id });
-  //   if (!found) {
-  //     throw new NotFoundException(`Game with ID:${id} not found`);
-  //   }
-  //   return found;
-  // }
+  async getGameById(id): Promise<any> {
+    const found = await this.gameRepo.findOneBy({ id });
+    if (!found) {
+      throw new NotFoundException(`Game with ID:${id} not found`);
+    }
+    return found;
+  }
   getGamesByUserID(id): any {
     return this.gameRepo.find({
       where: { id: id },
@@ -61,11 +61,15 @@ export class PublisherService {
       throw new NotFoundException(`Task with id ${id} does not exist`);
     }
   }
+  // async updateVisibility(id: number, visibility: boolean): Promise<any> {
+  //   await this.gameRepo.update(id, { visible: visibility });
+  //   return this.gameRepo.findOneBy(id);
+  // }
   async sendEmail(data) {
     return await this.mailerService.sendMail({
       to: data.email,
       subject: data.subject,
-      text: data.text,
+      text: data.message,
     });
   }
 }

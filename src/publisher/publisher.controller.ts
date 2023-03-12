@@ -33,6 +33,11 @@ export class PublisherController {
 
   @Get('/:id')
   getGameById(@Param('id', ParseIntPipe) id: number): Promise<Games> {
+    return this.gamesService.getGameById(id);
+  }
+
+  @Get(':/id')
+  getGamesByUserID(@Param('id', ParseIntPipe) id: number): Promise<Games> {
     return this.gamesService.getGamesByUserID(id);
   }
 
@@ -44,6 +49,14 @@ export class PublisherController {
   ): any {
     return this.gamesService.updateGamesById(games, id);
   }
+
+  // @Put(':id/visibility')
+  // async updateVisibility(
+  //   @Param('id', ParseIntPipe) id: number,
+  //   @Body() visibility: boolean,
+  // ): Promise<any> {
+  //   return this.gamesService.updateVisibility(id, visibility);
+  // }
 
   @Delete('/:id')
   deleteGames(@Param('id', ParseIntPipe) id: number) {
