@@ -61,10 +61,12 @@ export class PublisherService {
       throw new NotFoundException(`Task with id ${id} does not exist`);
     }
   }
-  // async updateVisibility(id: number, visibility: boolean): Promise<any> {
-  //   await this.gameRepo.update(id, { visible: visibility });
-  //   return this.gameRepo.findOneBy(id);
-  // }
+  async updateGameVisibility(id: number, addGamesDto: AddGamesDto) {
+    const allGames = await this.gameRepo.findOneByOrFail({ id });
+    allGames.isAvailable = addGamesDto.isAvailable;
+    allGames.isVisible = addGamesDto.isVisible;
+    return await this.gameRepo.save(allGames);
+  }
   async sendEmail(data) {
     return await this.mailerService.sendMail({
       to: data.email,

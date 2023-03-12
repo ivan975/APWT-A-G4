@@ -50,13 +50,13 @@ export class PublisherController {
     return this.gamesService.updateGamesById(games, id);
   }
 
-  // @Put(':id/visibility')
-  // async updateVisibility(
-  //   @Param('id', ParseIntPipe) id: number,
-  //   @Body() visibility: boolean,
-  // ): Promise<any> {
-  //   return this.gamesService.updateVisibility(id, visibility);
-  // }
+  @Put(':id/visibility')
+  async updateGamesVisibility(
+    @Param('id') id: number,
+    @Body() games: AddGamesDto,
+  ) {
+    return await this.gamesService.updateGameVisibility(id, games);
+  }
 
   @Delete('/:id')
   deleteGames(@Param('id', ParseIntPipe) id: number) {

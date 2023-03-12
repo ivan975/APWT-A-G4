@@ -21,6 +21,12 @@ export class Game extends BaseEntity {
   @Column()
   price: number;
 
+  @Column({ default: true })
+  isAvailable: boolean;
+
+  @Column({ default: true })
+  isVisible: boolean;
+
   @ManyToOne(() => User, (user) => user.games)
   game: User;
 }

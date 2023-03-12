@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsBoolean, IsNotEmpty } from 'class-validator';
 
 export class AddGamesDto {
   @IsNotEmpty()
@@ -13,5 +13,11 @@ export class AddGamesDto {
   @IsNotEmpty()
   price: number;
 
-  visible: boolean;
+  @IsBoolean()
+  @IsNotEmpty()
+  isVisible: boolean;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  isAvailable: boolean;
 }
