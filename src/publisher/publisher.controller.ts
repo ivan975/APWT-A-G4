@@ -7,17 +7,20 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { AddGamesDto } from './dto/add-games.dto';
 import { Games } from './model/games.model';
+import { PublisherGuard } from './publisher.guard';
 import { PublisherService } from './publisher.service';
 @Controller('/publisher')
 export class PublisherController {
   constructor(private gamesService: PublisherService) {}
 
   @Get()
+  @UseGuards(new PublisherGuard())
   getAllGames() {
     return this.gamesService.getAllGames();
   }

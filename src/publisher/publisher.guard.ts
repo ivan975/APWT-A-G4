@@ -1,12 +1,15 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { Observable } from 'rxjs';
-
+import { Request } from 'express';
 @Injectable()
 export class PublisherGuard implements CanActivate {
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
-    const request = context.switchToHttp().getRequest();
-    return request.session.email !== undefined;
+  public key = 'Ie7jpbnL4I';
+  canActivate(context: ExecutionContext): boolean {
+    const ctx = context.switchToHttp();
+    const request = ctx.getRequest<Request>();
+
+    if (request.header('key') == undefined) {
+      return false;
+    }
+    return request.header('key') === this.key;
   }
 }

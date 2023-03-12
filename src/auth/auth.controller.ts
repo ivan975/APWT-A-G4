@@ -11,9 +11,12 @@ import {
   UnauthorizedException,
   UploadedFile,
   UseInterceptors,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { AddGamesDto } from 'src/publisher/dto/add-games.dto';
 import { AuthCredentialsDto } from './auth-credentiasl.dto';
 import { AuthService } from './auth.service';
 

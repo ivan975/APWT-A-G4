@@ -16,8 +16,8 @@ export class AuthService {
 
   async signUp(authCredentialsDto: AuthCredentialsDto) {
     const salt = await bcrypt.genSalt();
-    const hassedpassed = await bcrypt.hash(authCredentialsDto.password, salt);
-    authCredentialsDto.password = hassedpassed;
+    const hashedpassword = await bcrypt.hash(authCredentialsDto.password, salt);
+    authCredentialsDto.password = hashedpassword;
     return await this.userRepo.save(authCredentialsDto);
   }
 
