@@ -11,12 +11,10 @@ import {
   UnauthorizedException,
   UploadedFile,
   UseInterceptors,
-  UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { AddGamesDto } from 'src/publisher/dto/add-games.dto';
 import { AuthCredentialsDto } from './auth-credentiasl.dto';
 import { AuthService } from './auth.service';
 
@@ -49,12 +47,17 @@ export class AuthController {
   }
 
   @Get('/signIn')
-  signIn(@Session() session, @Body() authCredentialsDto: AuthCredentialsDto) {
-    if (this.authService.signIn(authCredentialsDto)) {
+  async signIn(
+    @Session() session,
+    @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto,
+  ) {
+    const found = await this.authService.signIn(authCredentialsDto);
+    if (found) {
       session.email = authCredentialsDto.email;
-      return { message: 'success' };
+      console.log(session.email);
+      return { message: 'Logged In' };
     } else {
-      return { message: 'Invalid credentials' };
+      return { message: 'Invalid Credentials' };
     }
   }
   @Get('/signOut')

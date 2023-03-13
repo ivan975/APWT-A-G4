@@ -51,6 +51,7 @@ export class PublisherController {
   }
 
   @Put(':id/visibility')
+  @UsePipes(new ValidationPipe())
   async updateGamesVisibility(
     @Param('id') id: number,
     @Body() games: AddGamesDto,
@@ -59,6 +60,7 @@ export class PublisherController {
   }
 
   @Delete('/:id')
+  @UsePipes(new ValidationPipe())
   deleteGames(@Param('id', ParseIntPipe) id: number) {
     return this.gamesService.deleteGames(id);
   }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AuthCredentialsDto } from './auth-credentiasl.dto';
@@ -21,20 +21,13 @@ export class AuthService {
     return await this.userRepo.save(authCredentialsDto);
   }
 
-  async signIn(authCredentialsDto: AuthCredentialsDto) {
-    const myData = await this.userRepo.findOneBy({
-      email: authCredentialsDto.email,
-    });
-
-    const isMatch = await bcrypt.compare(
-      authCredentialsDto.password,
-      myData.password,
-    );
-
-    if (isMatch) {
-      return 1;
+  async signIn(userDto) {
+    const { email, password } = userDto;
+    const user = await this.userRepo.findOneBy({ email });
+    if (user && (await bcrypt.compare(password, user.password))) {
+      return user;
     } else {
-      return 0;
+      throw new UnauthorizedException('Enter Valid Credentials');
     }
   }
   async sendEmail(myData) {
