@@ -22,33 +22,16 @@ export class PublisherService {
   }
 
   async getGameById(id): Promise<any> {
-    const found = await this.gameRepo.findOneBy({ id });
+    const found = await this.gameRepo.findOneBy({ gameId: id });
     if (!found) {
       throw new NotFoundException(`Game with ID:${id} not found`);
     }
     return found;
   }
-  getGamesByUserID(id): any {
-    return this.gameRepo.find({
-      where: { id: id },
-      relations: {
-        game: true,
-      },
-    });
-  }
 
-  createGames(createGamesDto: AddGamesDto) {
-    const games = new Game();
-    games.id = createGamesDto.id;
-    games.title = createGamesDto.title;
-    games.yearOfRelease = createGamesDto.yearOfRelease;
-    games.price = createGamesDto.price;
-
-    return this.gameRepo.save(games);
-  }
-
-  insertGames(insertGames: AddGamesDto): any {
-    return this.gameRepo.save(insertGames);
+  createGames(id, createGamesDto) {
+    createGamesDto.user = id;
+    return this.gameRepo.save(createGamesDto);
   }
 
   async updateGamesById(addGamesDto, id) {
@@ -63,7 +46,7 @@ export class PublisherService {
     }
   }
   async updateGameVisibility(id: number, addGamesDto: AddGamesDto) {
-    const allGames = await this.gameRepo.findOneByOrFail({ id });
+    const allGames = await this.gameRepo.findOneByOrFail({ gameId: id });
     allGames.isAvailable = addGamesDto.isAvailable;
     allGames.isVisible = addGamesDto.isVisible;
     return await this.gameRepo.save(allGames);
@@ -74,5 +57,16 @@ export class PublisherService {
       subject: data.subject,
       text: data.message,
     });
+  }
+  // getGamesByUserID(id): any {
+  //   return this.gameRepo.find({
+  //     where: { id: id },
+  //   });
+  // }
+  async viewGame(id) {
+    return await this.gameRepo.findOneBy({ gameId: id });
+  }
+  async viewGames(id) {
+    return await this.gameRepo.findBy({ user: id });
   }
 }

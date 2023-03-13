@@ -2,9 +2,6 @@ import { IsNotEmpty } from 'class-validator';
 
 export class AddGamesDto {
   @IsNotEmpty()
-  id: number;
-
-  @IsNotEmpty()
   title: string;
 
   @IsNotEmpty()
@@ -15,7 +12,4 @@ export class AddGamesDto {
 
   isVisible: boolean;
   isAvailable: boolean;
-  // code: string;
-  // discount: number;
-  // expirationDate: Date;
 }

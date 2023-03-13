@@ -24,11 +24,13 @@ export class PublisherController {
   getAllGames() {
     return this.gamesService.getAllGames();
   }
-
-  @Post()
+  @Post('/create-games/:id')
   @UsePipes(ValidationPipe)
-  createGames(@Body() addGamesDto: AddGamesDto): Promise<Games> {
-    return this.gamesService.createGames(addGamesDto);
+  createGames(
+    @Param('id', ParseIntPipe) id: number,
+    @Body(ValidationPipe) createGamesDto: AddGamesDto,
+  ) {
+    return this.gamesService.createGames(id, createGamesDto);
   }
 
   @Get('/:id')
@@ -36,9 +38,14 @@ export class PublisherController {
     return this.gamesService.getGameById(id);
   }
 
-  @Get(':/id')
-  getGamesByUserID(@Param('id', ParseIntPipe) id: number): Promise<Games> {
-    return this.gamesService.getGamesByUserID(id);
+  @Get('/view-game/:id')
+  async viewGame(@Param('id', ParseIntPipe) id: number) {
+    return this.gamesService.viewGame(id);
+  }
+
+  @Get('/view-games/:id')
+  async viewGames(@Param('id', ParseIntPipe) id: number) {
+    return this.gamesService.viewGames(id);
   }
 
   @Put('updateGamesById/:id')

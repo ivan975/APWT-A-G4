@@ -3,30 +3,22 @@ import {
   Controller,
   FileTypeValidator,
   Get,
-  Param,
   ParseFilePipe,
-  ParseIntPipe,
   Post,
   Session,
   UnauthorizedException,
   UploadedFile,
   UseInterceptors,
-  UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { AddGamesDto } from 'src/publisher/dto/add-games.dto';
-import { PublisherService } from 'src/publisher/publisher.service';
 import { AuthCredentialsDto } from './auth-credentiasl.dto';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private authService: AuthService,
-    private gameService: PublisherService,
-  ) {}
+  constructor(private authService: AuthService) {}
 
   @Post('/signUp')
   @UseInterceptors(
@@ -77,14 +69,5 @@ export class AuthController {
   @Post('/email')
   sendEmail(@Body() myData) {
     return this.authService.sendEmail(myData);
-  }
-  @Post('/insertGames')
-  @UsePipes(new ValidationPipe())
-  insertGames(@Body() addGamesDto: AddGamesDto): any {
-    return this.gameService.insertGames(addGamesDto);
-  }
-  @Get('/getGameByUserId/:id')
-  getManagerByAdminID(@Param('id', ParseIntPipe) id: number): any {
-    return this.authService.getGamesByUserID(id);
   }
 }

@@ -12,7 +12,7 @@ import {
 @Unique(['username'])
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  userId: number;
 
   @Column()
   username: string;
@@ -26,6 +26,9 @@ export class User extends BaseEntity {
   @Column()
   email: string;
 
-  @OneToMany(() => Game, (game) => game.game)
+  // @OneToMany(() => Product, (product) => product.seller)
+  // products: Product[];
+
+  @OneToMany(() => Game, (game) => game.user)
   games: Game[];
 }

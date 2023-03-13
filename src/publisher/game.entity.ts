@@ -3,6 +3,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -10,7 +11,7 @@ import {
 @Entity()
 export class Game extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  gameId: number;
 
   @Column()
   title: string;
@@ -36,6 +37,10 @@ export class Game extends BaseEntity {
   // @Column()
   // expirationDate: Date;
 
+  // @ManyToOne(() => User, (user) => user.games)
+  // game: User;
+
   @ManyToOne(() => User, (user) => user.games)
-  game: User;
+  @JoinColumn({ name: 'FK_GameID' })
+  user: User;
 }
