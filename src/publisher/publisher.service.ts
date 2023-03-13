@@ -39,6 +39,7 @@ export class PublisherService {
 
   createGames(createGamesDto: AddGamesDto) {
     const games = new Game();
+    games.id = createGamesDto.id;
     games.title = createGamesDto.title;
     games.yearOfRelease = createGamesDto.yearOfRelease;
     games.price = createGamesDto.price;
