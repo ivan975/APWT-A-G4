@@ -9,50 +9,51 @@ import {
   Patch,
   UsePipes,
   ValidationPipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { Query } from '@nestjs/common/decorators';
-//import { UsePipes } from '@nestjs/common/decorators/core/use-pipes.decorator';
 import { createformdto } from './dto/create-employee.dto';
 import { GetEmployeeFilterDto } from './dto/get-employee-filter.dto';
-import { Employee } from './employee.model';
+
 import { EmployeeService } from './employee.service';
 
 @Controller('employee')
 export class EmployeeController {
   constructor(private EmployeeService: EmployeeService) {}
 
-  @Get()
-  getallusers(
-    @Query(ValidationPipe) filterDto: GetEmployeeFilterDto,
-  ): Employee[] {
-    if (Object.keys(filterDto).length) {
-    } else {
-      return this.EmployeeService.getallusers();
-    }
-    return this.EmployeeService.getallusers();
+  @Get('/abc')
+  index():any {
+    return 'akla';
+  }
+
+  @Get('/xyz')
+  getuser(@Query(ValidationPipe) filterDto: GetEmployeeFilterDto): Promise<any> {
+    return this.EmployeeService.getuser(filterDto);
   }
 
   @Get('/:id')
-  getuserbyID(@Param('id') id: string): Employee {
+  getuserbyID(@Param('id', ParseIntPipe) id: number): any {
     return this.EmployeeService.getuserbyID(id);
   }
 
   @Post()
   @UsePipes(ValidationPipe)
-  creatfrom(@Body() createformdto: createformdto): Employee {
+  creatfrom(@Body() createformdto: createformdto): any {
     return this.EmployeeService.createform(createformdto);
   }
 
   @Delete('/:id')
-  deleteuser(@Param('id') id: string): void {
-    this.EmployeeService.deleteuser(id);
+  deleteuser(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.EmployeeService.deleteuser(id);
   }
 
   @Patch('/:id/status')
   updateuserstatus(
-    @Param('id') id: string,
-    @Body('status') status: string,
-  ): Employee {
+    @Param('id', ParseIntPipe) id: number,
+    @Body('status', ValidationPipe) status: string
+  ): any {
     return this.EmployeeService.updateuserstatus(id, status);
   }
+
+  
 }

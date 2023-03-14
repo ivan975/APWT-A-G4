@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { EmployeeModule } from './employee/employee.module';
-import { EmployeeController } from './employee/employee.controller';
-
+import { TypeOrmModule } from '@nestjs/typeorm/dist';
+import { typeOrmConfig } from './config/typeorm.config';
 
 @Module({
-  imports: [EmployeeModule],
-
+  imports: [TypeOrmModule.forRoot(typeOrmConfig), EmployeeModule]
 })
 export class AppModule {}

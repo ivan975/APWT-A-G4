@@ -5,9 +5,3 @@ export interface Employee {
     status: string;
 }
 
-export enum UserStatus{
-    Check = 'Check',
-    In_Progress = 'In_Progress',
-    Done = 'Done',
-
-}

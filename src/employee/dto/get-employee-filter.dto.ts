@@ -1,5 +1,6 @@
-import { UserStatus } from "../employee.model";
+
 import { IsIn, IsNotEmpty, IsOptional } from "class-validator";
+import { UserStatus } from "../employee-status.enum";
 
 export class GetEmployeeFilterDto{
     @IsOptional()
