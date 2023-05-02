@@ -1,7 +1,7 @@
 import { Admin } from 'src/admin/admin.entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
-@Entity("employee")
+@Entity()
 export class Employee{
 
     @PrimaryGeneratedColumn()
@@ -19,7 +19,10 @@ export class Employee{
     @Column()
     salary: number;
 
-    @ManyToOne(() => Admin, (admin) => admin.employee)
+    @ManyToOne(() => Admin, (admin) => admin.employees)
     admin: Admin
 
+    @Column()
+    adminId: number;
+    
 }

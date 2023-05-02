@@ -1,7 +1,7 @@
 import { Employee } from 'src/employee/employee.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
-@Entity("admin")
+@Entity()
 export class Admin{
 
     @PrimaryGeneratedColumn()
@@ -16,7 +16,7 @@ export class Admin{
     @Column()
     password: string;
 
-    @OneToMany(() => Employee, (employee) => employee.admin)
-    employee: Employee[]
+    @OneToMany(() => Employee, (employees) => employees.admin)
+    employees: Employee[]
     
 }

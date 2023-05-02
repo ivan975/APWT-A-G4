@@ -25,6 +25,5 @@ export class CreateEmployee {
     salary: number;
 
     @IsInt()
-    @IsNotEmpty()
-    adminid: number;
+    adminId: number;
 }
