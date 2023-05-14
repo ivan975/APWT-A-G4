@@ -17,17 +17,22 @@ export class AdminService {
         return this.adminRepo.find()
     }
 
-    insertUserAdmin(mydto: CreateAdmin): any {
-        const adminAccount = new Admin()
-        
-        adminAccount.name = mydto.name;
-        adminAccount.email = mydto.email;
-        adminAccount.password = mydto.password;
-
-        return this.adminRepo.save(adminAccount);
+    getProfile(): any {
+        return this.adminRepo.find()
     }
 
-    findByAdminId(id):any {
+    async insertUserAdmin(mydto: CreateAdmin) {
+        const salt = await bcrypt.genSalt()
+        const hassedpassed = await bcrypt.hash(mydto.password, salt);
+        mydto.password= hassedpassed;
+        return this.adminRepo.save(mydto);
+    }
+
+    updateUserAdmin(email, name): any {
+        return this.adminRepo.update({email:email}, {name:name});
+    }
+
+    findByAdminId(id): any {
         return this.adminRepo.find({ 
             where: {id:id},
             relations: {
@@ -36,7 +41,11 @@ export class AdminService {
         });
     }
 
-    async signin(mydto){
+    deleteUserByAdminId(id): any {
+        return this.adminRepo.delete(id);
+    }
+
+    async signin(mydto: CreateAdmin){
     
         if (mydto.name != null && mydto.password != null) {
             const mydata = await this.adminRepo.findOneBy({ name: mydto.name });

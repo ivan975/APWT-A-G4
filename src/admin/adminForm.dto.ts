@@ -1,13 +1,15 @@
-import { IsNotEmpty, IsInt, Length, IsEmail } from 'class-validator';
+import { IsNotEmpty, IsInt, Length, IsEmail, IsOptional } from 'class-validator';
 
 export class CreateAdmin {
     @IsNotEmpty()
     name: string;
 
     @IsEmail()
-    email: string;
+    @IsOptional()
+    email?: string;
 
     @Length(3, 8)
+    @IsNotEmpty()
     password: string;    
 }
 
@@ -18,12 +20,20 @@ export class CreateEmployee {
     @IsEmail()
     email: string;
 
-    @Length(3, 8)
-    password: string;
+    @IsNotEmpty()
+    department: string;
 
     @IsInt()
     salary: number;
 
     @IsInt()
+    @IsNotEmpty()
+    @IsOptional()
     adminId: number;
+    
+    /*
+    constructor(partial: Partial<CreateEmployee>) {
+        Object.assign(this, partial);
+    }
+    */
 }

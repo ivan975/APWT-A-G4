@@ -14,7 +14,7 @@ export class Employee{
     email: string;
 
     @Column()
-    password: string;
+    department: string;
 
     @Column()
     salary: number;
